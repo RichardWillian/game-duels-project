@@ -1,0 +1,21 @@
+﻿body {
+    background-color: rgb(0 0 0);
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-width: 496px;
+    margin: 0 auto;
+    padding: 9px;
+    background-color: rgb(95, 95, 255);
+}
+
+.card {
+    width: 100px;
+    height: 140px;
+    margin: 12px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 12px rgb(63, 63, 63);
+}
