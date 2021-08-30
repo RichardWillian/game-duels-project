@@ -33,5 +33,20 @@ namespace WebApplication1.Lobby
                 Clients.Group("Lobby").createCard(user);
             }
         }
+
+        public void ToChallenge(string challengerId, string userId)
+        {
+            var user = DB.GetConnectedUser(userId);
+
+            if (user == null)
+                return;
+
+            var challenger = DB.GetConnectedUser(challengerId);
+
+            if (challenger == null)
+                return;
+
+            Clients.Client(user.HubId).toChallenge(challenger.Name, user.Name);
+        }
     }
 }

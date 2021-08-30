@@ -19,34 +19,16 @@ namespace WebApplication1.Login
 
         public void ConnectUser(string userName)
         {
-            var user = DB.GetConnectedUser(CurrentUserId);
-
-            if (user == null)
-                return;
-
-            user.Name = userName;
-
-            DB.UpdateUser(user);
-
-            Clients.Caller.redirectUser("https://localhost:44339/Lobby/index.html");
-        }
-
-        public override Task OnConnected()
-        {
             var user = new User
             {
                 Id = Guid.NewGuid(),
-                HubId = Context.ConnectionId
+                HubId = Context.ConnectionId,
+                Name = userName
             };
 
             DB.AddUser(user);
 
-            CurrentUserId = user.Id.ToString();
-
-            var newCookie = new HttpCookie("userId", user.Id.ToString());
-            Context.Request.GetHttpContext().Response.Cookies.Add(newCookie);
-
-            return base.OnConnected();
+            Clients.Caller.redirectUser(user.Id, "https://localhost:44339/Lobby/index.html");
         }
 
         public override Task OnReconnected()

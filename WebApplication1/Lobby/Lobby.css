@@ -19,3 +19,99 @@
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 12px rgb(63, 63, 63);
 }
+
+@import url("https://fonts.googleapis.com/css?family=Lato:400i,600");
+
+body {
+    margin: 0px;
+    padding: 20vmin 20vmin 20vmin 30vmin;
+    font-family: 'Lato';
+    color: rgba(0,0,0,0.6);
+    font-weight: 400;
+    font-style: italic;
+    -webkit-font-smoothing: antialiased;
+}
+
+.notification {
+    position: relative;
+    float: right;
+    display: inline-block;
+    width: 40vw;
+    min-width: 200px;
+    max-width: 20%;
+    animation: popFromBottom 0.5s ease-in-out;
+}
+
+@keyframes popFromBottom {
+    0% {
+        transform: translateY(300px) scale(0);
+    }
+
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+}
+
+img {
+    height: 22vmin;
+    margin-left: -30%;
+}
+
+.profile {
+    display: inline-block;
+    width: 22vmin;
+    height: 22vmin;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    left: -16vmin;
+    top: -1vmin;
+    border: 1vmin solid #fff;
+}
+
+.message {
+    background: #ffe271;
+    padding: 2vmin 5vmin 2vmin 10vmin;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 3vmin;
+    text-align: left;
+}
+
+.user {
+    text-align: left;
+    padding: 2px 30px 5px 60px;
+    border-radius: 0px 0px 0px 0px;
+    font-size: 3.2vmin;
+    background: #fff;
+    color: #83aebd;
+    display: inline-block;
+    float: left;
+    font-weight: 200;
+    font-style: normal;
+}
+
+#decision-yes {
+    text-align: center;
+    padding: 2px 20px 5px 40px;
+    border-radius: 0px 0px 0px 20px;
+    font-size: 3.0vmin;
+    background: #36b44c;
+    color: #fff;
+    display: inline-block;
+    float: left;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#decision-no {
+    text-align: center;
+    padding: 2px 30px 5px 40px;
+    border-radius: 0px 0px 20px;
+    font-size: 3.0vmin;
+    background: #c62424;
+    color: #fff;
+    display: inline-block;
+    float: left;
+    font-weight: 400;
+    font-style: normal;
+}
