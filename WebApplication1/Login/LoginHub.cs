@@ -31,6 +31,11 @@ namespace WebApplication1.Login
             Clients.Caller.redirectUser(user.Id, "https://localhost:44339/Lobby/index.html");
         }
 
+        public override Task OnConnected()
+        {
+            return base.OnConnected();
+        }
+
         public override Task OnReconnected()
         {
             return base.OnReconnected();

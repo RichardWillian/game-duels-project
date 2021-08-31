@@ -34,7 +34,7 @@ namespace WebApplication1.Lobby
             }
         }
 
-        public void ToChallenge(string challengerId, string userId)
+        public void ToChallenge(string challengerId, string userId, string options)
         {
             var user = DB.GetConnectedUser(userId);
 
@@ -46,7 +46,34 @@ namespace WebApplication1.Lobby
             if (challenger == null)
                 return;
 
-            Clients.Client(user.HubId).toChallenge(challenger.Name, user.Name);
+            Clients.Client(user.HubId).toChallenge(challenger, user.Name, options);
+        }
+
+        public void RefuseChallenge(string challengerId, string userId)
+        {
+            var user = DB.GetConnectedUser(userId);
+
+            if (user == null)
+                return;
+
+            var challenger = DB.GetConnectedUser(challengerId);
+
+            if (challenger == null)
+                return;
+
+            Clients.Client(challenger.HubId).refuseChallenge(user.Name);
+        }
+
+        public void AcceptChallenge(string challengerId, string userId)
+        {
+            var user = DB.GetConnectedUser(userId);
+
+            if (user == null)
+                return;
+
+            var challenger = DB.GetConnectedUser(challengerId);
+
+            Clients.Client(challenger.HubId).acceptChallenge(user.Name);
         }
     }
 }

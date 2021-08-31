@@ -21,13 +21,16 @@ $(function () {
                         Name: ${user.Name}
                     </p>
                     <br>
-                    <button onclick="toChallenge('${user.Id}')">
+                    <button onclick="showOptions('${user.Id}')">
                         Desafiar
                     </button>
                 </div>`;
     }
 
-    function createNotification(challengerName, userName) {
+    function createChallengerNotification(challenger, userName, options) {
+
+        let opt = JSON.parse(options);
+
         return `<div class="notification">
         <div class="profile">
             <img src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=a8ccd69bd6cc884f728949673c6829cf' alt=''>
@@ -36,14 +39,34 @@ $(function () {
             E aí, ${userName}, bora um x1 no Free Fire ?
         </div>
         <div class="user">
-            ${challengerName}
+            ${challenger.Name}
         </div>
-        <button id="decision-yes">
+        <button id="decision-yes" onclick="acceptChallenge('${challenger.Id}')">
             Sim
         </button>
-        <button id="decision-no">
+        <button id="decision-no" onclick="refuseChallenge('${challenger.Id}')">
             Não
         </button>
+        <div id="options">
+            <p>Gun: ${opt.gun}</p><br>
+            <p>Map: ${opt.map}</p><br>
+            <p>Value: ${opt.value}</p>
+        </div>
+    </div>`;
+    }
+
+    function createRefusedNotification(challengedName) {
+
+        return `<div class="notification">
+        <div class="profile">
+            <img src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=a8ccd69bd6cc884f728949673c6829cf' alt=''>
+        </div>
+        <div class="message">
+            Tô suave, Irmão !
+        </div>
+        <div class="user">
+            ${challengedName}
+        </div>
     </div>`;
     }
 
@@ -69,11 +92,20 @@ $(function () {
                 background: generateRandomColor()
             });
         },
-        toChallenge: function (challengerName, userName) {
-            let $notification = createNotification(challengerName, userName);
+        toChallenge: function (challenger, userName, options) {
+            let $notification = createChallengerNotification(challenger, userName, options);
             let $body = $('body');
 
             $body.append($notification);
+        },
+        refuseChallenge: function (challengedName) {
+            let $refusedNotification = createRefusedNotification(challengedName);
+            let $body = $('body');
+
+            $body.append($refusedNotification);
+        },
+        acceptChallenge: function (target) {
+            window.location = target;
         }
     });
 
@@ -81,6 +113,35 @@ $(function () {
         hub.server.createCard(getCookie('userId'));
     });
 });
+
+function showOptions(userId) {
+    removeNotification();
+    let options = `<div id="challengerOptions">
+                        <div>
+                            <label for="guns">Choose a gun:</label>
+                            <select name="guns" id="guns">
+                                <option value="Pistol">Pistol</option>
+                                <option value="Assault Rifle">Assault Rifle</option>
+                                <option value="Sniper">Sniper</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="maps">Choose a map:</label>
+                            <select name="maps" id="maps">
+                                <option value="Map1">Map 1</option>
+                                <option value="Map2">Map 2</option>
+                                <option value="Map3">Map 3</option>
+                            </select>
+                        </div>
+                        <br>
+                        <button onclick="toChallenge('${userId}')">
+                            Enviar Desafio
+                        </button>
+                    </div>`;
+
+    $('.options').append(options);
+}
 
 function getCookie(name) {
     var nameEQ = name + "=";
@@ -93,7 +154,28 @@ function getCookie(name) {
     return null;
 }
 
-
 function toChallenge(userId) {
-    hub.server.toChallenge(getCookie('userId'), userId);
+
+    let options = {
+        gun: $("#guns option:selected").text(),
+        map: $("#maps option:selected").text(),
+        value: 50
+    }
+
+    removeNotification();
+    hub.server.toChallenge(getCookie('userId'), userId, JSON.stringify(options));
+}
+
+function refuseChallenge(challengerId) {
+    removeNotification();
+    hub.server.refuseChallenge(challengerId, getCookie('userId'));
+}
+
+function acceptChallenge(challengerId) {
+    hub.server.acceptChallenge(challengerId, getCookie('userId'));
+}
+
+function removeNotification() {
+    $('#challengerOptions').remove()
+    $(".notification").remove();
 }

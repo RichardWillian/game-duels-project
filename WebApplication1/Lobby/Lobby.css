@@ -115,3 +115,24 @@ img {
     font-weight: 400;
     font-style: normal;
 }
+
+#options {
+    text-align: left;
+    font-size: 2.2vmin;
+    background: #fff;
+    color: #83aebd;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.options {
+    background: #76b852; /* fallback for old browsers */
+    background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+    background: -moz-linear-gradient(right, #76b852, #8DC26F);
+    background: -o-linear-gradient(right, #76b852, #8DC26F);
+    background: linear-gradient(to left, #76b852, #8DC26F);
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
