@@ -88,6 +88,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Challenge\Challenge.js" />
+    <Content Include="Challenge\index.html" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />

@@ -104,7 +104,7 @@ $(function () {
 
             $body.append($refusedNotification);
         },
-        acceptChallenge: function (target) {
+        redirectUser: function (target) {
             window.location = target;
         }
     });

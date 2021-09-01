@@ -28,6 +28,17 @@ namespace WebApplication1.Repository
 
         public bool CheckUserIsConnected(string hubId) => ConnectedUsers.Any(x => x.HubId == hubId);
 
+        public void AddRoom(Guid userId, string groupName)
+        {
+            var room = new Room
+            {
+                Id = Guid.NewGuid(),
+                Name = groupName
+            };
+
+            ConnectedUsers.First(x => x.Id == userId).Rooms.Add(room);
+        }
+
         public static DataBase GetInstance()
         {
             if (_instance == null)

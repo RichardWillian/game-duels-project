@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using WebApplication1.Repository;
 
 namespace WebApplication1.Challenge
@@ -13,19 +17,26 @@ namespace WebApplication1.Challenge
             DB = DataBase.GetInstance();
         }
 
-        public void InviteOpponent(string opponentId)
+        public override Task OnConnected()
         {
-            if (DB.CheckUserIsConnected(opponentId))
-            {
+            var userId = HttpContext.Current.Request.Cookies.Get("userId").Value;
 
-            }
+            var user = DB.GetConnectedUser(userId);
 
-            var opponent = Clients.User(opponentId);
+            DB.UpdateHubId(userId, Context.ConnectionId);
 
-            if(opponent != null)
-            {
-                opponent.inviteOpponent(Context.ConnectionId, opponentId);
-            }
+            var usersId = user.Rooms.First().Name.Split('|');
+
+            Groups.Add(Context.ConnectionId, user.Rooms.First().Name);
+
+            var user1 = DB.GetConnectedUser(usersId[0]);
+            var user2 = DB.GetConnectedUser(usersId[1]);
+
+            var usersName = new List<string>() { user1.Name, user2.Name };
+
+            Clients.Caller.createTitle(usersName);
+
+            return base.OnConnected();
         }
     }
 }

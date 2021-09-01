@@ -73,7 +73,16 @@ namespace WebApplication1.Lobby
 
             var challenger = DB.GetConnectedUser(challengerId);
 
-            Clients.Client(challenger.HubId).acceptChallenge(user.Name);
+            if (challenger == null)
+                return;
+
+            var groupName = $"{user.Id}|{challenger.Id}";
+            DB.AddRoom(user.Id, groupName);
+            DB.AddRoom(challenger.Id, groupName);
+
+            var target = "https://localhost:44339/Challenge/index.html";
+            Clients.Client(user.HubId).redirectUser(target);
+            Clients.Client(challenger.HubId).redirectUser(target);
         }
     }
 }

@@ -8,6 +8,11 @@ namespace WebApplication1.Repository
 {
     public class User
     {
+        public User()
+        {
+            Rooms = new List<Room>();
+        }
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public List<Room> Rooms { get; set; }
